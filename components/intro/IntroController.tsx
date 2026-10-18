@@ -8,7 +8,9 @@ import {
   TerminalEntry,
 } from "./terminalSequence";
 import { TerminalWindow } from "./TerminalWindow";
+import { cyberAudio } from "./cyberAudio";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { Volume2, VolumeX } from "lucide-react";
 import "./intro.css";
 
 const SESSION_STORAGE_KEY = "vm_cyber_intro_played";
@@ -58,6 +60,8 @@ export const IntroController: React.FC<IntroControllerProps> = ({
   const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
   const [transitionStyle, setTransitionStyle] = useState<React.CSSProperties>({});
   const [overlayOpacity, setOverlayOpacity] = useState<number>(1);
+  // Default to muted (false) for guaranteed SSR & hydration safety; synchronize with localStorage in effect
+  const [soundEnabled, setSoundEnabled] = useState<boolean>(false);
 
   const terminalRef = useRef<HTMLDivElement>(null);
   const timeoutsRef = useRef<NodeJS.Timeout[]>([]);
@@ -68,12 +72,24 @@ export const IntroController: React.FC<IntroControllerProps> = ({
   const onAwakenRef = useRef(onAwaken);
   const onDockCompleteRef = useRef(onDockComplete);
 
+  // Synchronize sound state from client localStorage on mount
+  useEffect(() => {
+    setSoundEnabled(cyberAudio.getSoundEnabled());
+  }, []);
+
   // Safely update refs outside of render to comply with react-hooks/refs
   useEffect(() => {
     onRevealRef.current = onRevealPortfolio;
     onAwakenRef.current = onAwaken;
     onDockCompleteRef.current = onDockComplete;
   });
+
+  // Toggle audio on/off
+  const handleToggleSound = useCallback(() => {
+    const nextState = !soundEnabled;
+    setSoundEnabled(nextState);
+    cyberAudio.setSoundEnabled(nextState);
+  }, [soundEnabled]);
 
   // Persist session flag safely to sessionStorage
   const markSessionAsPlayed = useCallback(() => {
@@ -98,6 +114,9 @@ export const IntroController: React.FC<IntroControllerProps> = ({
       if (hasFinishedRef.current) return;
       hasFinishedRef.current = true;
       clearAllTimeouts();
+
+      // Immediately silence any active audio effects
+      cyberAudio.stopAll();
 
       // Persist that intro sequence has run for this session
       markSessionAsPlayed();
@@ -134,6 +153,7 @@ export const IntroController: React.FC<IntroControllerProps> = ({
   // Handle Skip button
   const handleSkip = useCallback(() => {
     console.log(`[CyberIntro] User skipped intro sequence. Docking instantly.`);
+    cyberAudio.stopAll();
     finishIntro();
   }, [finishIntro]);
 
@@ -141,6 +161,9 @@ export const IntroController: React.FC<IntroControllerProps> = ({
   const executeTransition = useCallback(
     (cfg: IntroTimingConfig) => {
       setIsTransitioning(true);
+
+      // Play soft futuristic digital whoosh synchronized with flight movement
+      cyberAudio.playDockingFlight(cfg.morphDurationMs);
 
       // Persist session played as soon as transition commences
       markSessionAsPlayed();
@@ -228,12 +251,13 @@ export const IntroController: React.FC<IntroControllerProps> = ({
         }, awakenDelay);
         timeoutsRef.current.push(awakenTimer);
 
-        // Step 5: Touchdown at destination! Hand off to docked mini-terminal
+        // Step 5: Touchdown at destination! Play quiet docking confirmation click & hand off to docked mini-terminal
         const dockTimer = setTimeout(() => {
           console.log(
             `%c[CyberIntro] Terminal successfully docked into homepage System Map`,
             "color: #00FF66; font-weight: bold;"
           );
+          cyberAudio.playDockingLatch();
           onDockCompleteRef.current?.();
           finishIntro(cfg);
         }, cfg.morphDurationMs);
@@ -295,13 +319,24 @@ export const IntroController: React.FC<IntroControllerProps> = ({
       "color: #F59E0B; font-weight: bold;"
     );
 
-    // Schedule progressive reveal of lines
+    // Schedule progressive reveal of lines with synchronized sound effects
     activeCfg.sequence.forEach((entry) => {
       const timer = setTimeout(() => {
         setVisibleLines((prev) => [...prev, entry]);
 
+        // 1. Terminal Typing: Soft, realistic mechanical keyboard clicks while commands are being typed
+        if (entry.type === "kali-prompt" || entry.commandText) {
+          const burstLength = entry.commandText ? Math.min(5, Math.max(3, Math.floor(entry.commandText.length / 5))) : 4;
+          cyberAudio.playTypingBurst(burstLength);
+        } else if (entry.id === "recon-done" || entry.id === "rev-connected") {
+          // Subtle high-tech packet processing chirp
+          cyberAudio.playPacketChirp();
+        }
+
+        // 2. ACCESS GRANTED: Distinctive, clean electronic confirmation tone at exact moment SYSTEM ACCESS GRANTED appears
         if (entry.id === "access-granted" || entry.id === "re-access") {
           setIsAccessGranted(true);
+          cyberAudio.playAccessGranted();
         }
       }, entry.revealAt);
 
@@ -332,6 +367,7 @@ export const IntroController: React.FC<IntroControllerProps> = ({
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
       clearAllTimeouts();
+      cyberAudio.stopAll();
       document.body.style.overflow = "";
     };
   }, [reducedMotion, executeTransition, finishIntro, clearAllTimeouts]);
@@ -350,21 +386,44 @@ export const IntroController: React.FC<IntroControllerProps> = ({
       aria-modal="true"
       aria-label="Kali Linux Terminal Intro"
     >
-      {/* Top Controls: Mode indicator & Skip button */}
+      {/* Top Controls: Mode indicator, Sound toggle & Skip button */}
       <div className="fixed top-4 sm:top-6 left-4 sm:left-8 right-4 sm:right-8 z-10000 flex items-center justify-between pointer-events-auto">
         <div className="flex items-center gap-2 px-2.5 py-1 rounded bg-[#0d1217] border border-[#1a232e] text-[11px] font-mono text-[#4ADE80]">
           <span className="w-1.5 h-1.5 rounded-full bg-[#00FF66] animate-pulse" />
           <span>{config.badgeText}</span>
         </div>
 
-        <button
-          onClick={handleSkip}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#0d1217] hover:bg-[#151d26] border border-[#1a232e] hover:border-[#00FF66]/60 text-xs font-mono uppercase tracking-wider text-[#E8EDF2] hover:text-[#00FF66] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00FF66] shadow-lg"
-          aria-label="Skip Terminal Introduction"
-        >
-          <span>SKIP INTRO</span>
-          <span className="text-[#00FF66]">→</span>
-        </button>
+        <div className="flex items-center gap-2.5">
+          {/* Minimal Cyber Audio Toggle (Mute / Enable) */}
+          <button
+            onClick={handleToggleSound}
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded bg-[#0d1217] hover:bg-[#151d26] border text-xs font-mono uppercase tracking-wider transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00FF66] cursor-pointer shadow-lg ${
+              soundEnabled
+                ? "border-[#00FF66]/60 text-[#00FF66] shadow-[0_0_12px_rgba(0,255,102,0.15)]"
+                : "border-[#1a232e] text-[#94A0AD] hover:text-[#E8EDF2]"
+            }`}
+            aria-label={soundEnabled ? "Mute Terminal Audio" : "Enable Terminal Audio"}
+            title={soundEnabled ? "Audio: Active (Click to mute)" : "Audio: Muted (Click to enable)"}
+          >
+            {soundEnabled ? (
+              <Volume2 className="w-3.5 h-3.5 text-[#00FF66]" />
+            ) : (
+              <VolumeX className="w-3.5 h-3.5 text-[#94A0AD]" />
+            )}
+            <span className="hidden sm:inline">{soundEnabled ? "AUDIO ON" : "AUDIO OFF"}</span>
+            <span className="inline sm:hidden">{soundEnabled ? "ON" : "OFF"}</span>
+          </button>
+
+          {/* Skip Intro CTA */}
+          <button
+            onClick={handleSkip}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#0d1217] hover:bg-[#151d26] border border-[#1a232e] hover:border-[#00FF66]/60 text-xs font-mono uppercase tracking-wider text-[#E8EDF2] hover:text-[#00FF66] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00FF66] shadow-lg cursor-pointer"
+            aria-label="Skip Terminal Introduction"
+          >
+            <span>SKIP INTRO</span>
+            <span className="text-[#00FF66]">→</span>
+          </button>
+        </div>
       </div>
 
       {/* Terminal Window traveling continuously to dock position */}
