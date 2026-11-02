@@ -15,11 +15,7 @@ const socialIcons = {
 };
 
 export const Footer: React.FC = () => {
-  const [currentYear, setCurrentYear] = React.useState(2026);
-
-  React.useEffect(() => {
-    setCurrentYear(new Date().getFullYear());
-  }, []);
+  const currentYear = 2026;
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -37,7 +33,7 @@ export const Footer: React.FC = () => {
                 VM / VAIBHAV MARATHE
               </div>
               <p className="text-xs text-[#94A0AD] mt-0.5 font-normal">
-                Built with curiosity. Secured by learning.
+                Computer Science @ IIIT Surat • Cybersecurity &amp; Systems
               </p>
             </div>
           </div>
@@ -76,7 +72,7 @@ export const Footer: React.FC = () => {
         {/* Bottom subtle copyright notice */}
         <div className="mt-8 pt-6 border-t border-[#29323D]/50 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#94A0AD]/70">
           <div>
-            © {currentYear} Vaibhav Marathe. All technical rights reserved.
+            © {currentYear} Vaibhav Marathe
           </div>
           <div className="flex items-center gap-4">
             <span className="inline-flex items-center gap-1.5">

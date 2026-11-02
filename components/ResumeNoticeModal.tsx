@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { FileText, X, ArrowUpRight, ShieldAlert, CheckCircle2 } from "lucide-react";
+import { FileText, X, ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { GithubIcon, LinkedinIcon, TryHackMeIcon } from "./SocialIcons";
 
 export const triggerResumeNotice = (e?: React.MouseEvent) => {

@@ -1,6 +1,6 @@
 import React from "react";
 import { LabItem } from "@/data/labs";
-import { ShieldCheck, Terminal, ExternalLink, ArrowRight, FileText } from "lucide-react";
+import { ShieldCheck, ExternalLink, ArrowRight, FileText } from "lucide-react";
 
 interface LabCardProps {
   lab: LabItem;

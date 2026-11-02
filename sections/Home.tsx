@@ -727,7 +727,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                   <div className="flex items-center gap-2">
                     <Icon className="w-3.5 h-3.5 text-[#64C7D8]" />
                     <span className="font-mono text-[10px] uppercase text-[#64C7D8] tracking-wider">
-                      {node.number} // {node.label}
+                      {`${node.number} // ${node.label}`}
                     </span>
                   </div>
                   <ArrowRight className="w-3.5 h-3.5 text-[#94A0AD]" />

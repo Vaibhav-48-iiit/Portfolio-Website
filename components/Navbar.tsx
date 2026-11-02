@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { VMMonogram } from "./VMMonogram";
-import { profileData } from "@/data/profile";
-import { Download, Menu, X, ArrowUpRight } from "lucide-react";
+import { Download, Menu, X } from "lucide-react";
 import { triggerResumeNotice } from "./ResumeNoticeModal";
 
 const NAV_ITEMS = [

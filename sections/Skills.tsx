@@ -3,7 +3,7 @@
 import React from "react";
 import { SectionHeading } from "@/components/SectionHeading";
 import { technicalCapabilityIndex } from "@/data/skills";
-import { ArrowUpRight, Terminal, BookOpen, Layers } from "lucide-react";
+import { ArrowUpRight, Terminal, BookOpen } from "lucide-react";
 
 export const SkillsSection: React.FC = () => {
   const handleScrollTo = (targetId?: string) => {

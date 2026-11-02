@@ -11,10 +11,8 @@ import {
   ArrowRight,
   ExternalLink,
   ShieldCheck,
-  Terminal,
   Cpu,
   Layers,
-  FileCode,
 } from "lucide-react";
 
 type FilterType = "all" | "projects" | "labs";
@@ -311,7 +309,7 @@ export const ProjectsSection: React.FC = () => {
                     <div className="flex items-center justify-between gap-2 mb-3">
                       <span className="font-mono text-[10px] uppercase tracking-wider text-[#64C7D8] flex items-center gap-1.5">
                         <ShieldCheck className="w-3.5 h-3.5" />
-                        <span>0{index + 3} // {lab.platform.toUpperCase()}</span>
+                        <span>{`0${index + 3} // ${lab.platform.toUpperCase()}`}</span>
                       </span>
                       <span className="font-mono text-[10px] text-[#94A0AD] px-2 py-0.5 rounded bg-[#11161D] border border-[#29323D]">
                         {lab.badge || lab.status}

@@ -60,8 +60,11 @@ export const IntroController: React.FC<IntroControllerProps> = ({
   const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
   const [transitionStyle, setTransitionStyle] = useState<React.CSSProperties>({});
   const [overlayOpacity, setOverlayOpacity] = useState<number>(1);
-  // Default to muted (false) for guaranteed SSR & hydration safety; synchronize with localStorage in effect
-  const [soundEnabled, setSoundEnabled] = useState<boolean>(false);
+  const soundEnabled = useSyncExternalStore(
+    cyberAudio.subscribe,
+    () => cyberAudio.getSoundEnabled(),
+    () => true
+  );
 
   const terminalRef = useRef<HTMLDivElement>(null);
   const timeoutsRef = useRef<NodeJS.Timeout[]>([]);
@@ -72,9 +75,21 @@ export const IntroController: React.FC<IntroControllerProps> = ({
   const onAwakenRef = useRef(onAwaken);
   const onDockCompleteRef = useRef(onDockComplete);
 
-  // Synchronize sound state from client localStorage on mount
+  // Listen for user gesture to unlock Web Audio context
   useEffect(() => {
-    setSoundEnabled(cyberAudio.getSoundEnabled());
+    const handleUserGesture = () => {
+      cyberAudio.unlock();
+    };
+
+    window.addEventListener("pointerdown", handleUserGesture, { once: true, passive: true });
+    window.addEventListener("keydown", handleUserGesture, { once: true, passive: true });
+    window.addEventListener("touchstart", handleUserGesture, { once: true, passive: true });
+
+    return () => {
+      window.removeEventListener("pointerdown", handleUserGesture);
+      window.removeEventListener("keydown", handleUserGesture);
+      window.removeEventListener("touchstart", handleUserGesture);
+    };
   }, []);
 
   // Safely update refs outside of render to comply with react-hooks/refs
@@ -86,9 +101,7 @@ export const IntroController: React.FC<IntroControllerProps> = ({
 
   // Toggle audio on/off
   const handleToggleSound = useCallback(() => {
-    const nextState = !soundEnabled;
-    setSoundEnabled(nextState);
-    cyberAudio.setSoundEnabled(nextState);
+    cyberAudio.setSoundEnabled(!soundEnabled);
   }, [soundEnabled]);
 
   // Persist session flag safely to sessionStorage
@@ -130,15 +143,6 @@ export const IntroController: React.FC<IntroControllerProps> = ({
       onDockCompleteRef.current?.();
 
       const activeCfg = cfg || activeConfigRef.current;
-      if (startTimeRef.current > 0) {
-        const elapsed = Math.round(performance.now() - startTimeRef.current);
-        console.log(
-          `%c[CyberIntro] Intro animation completed in %c${elapsed}ms%c (target: ~${activeCfg.totalDurationMs}ms) | Mode: ${activeCfg.label}`,
-          "color: #00FF66; font-weight: bold;",
-          "color: #00FF66; font-weight: bold; text-decoration: underline;",
-          "color: #B8C5CC;"
-        );
-      }
 
       // Smooth exit
       setOverlayOpacity(0);
@@ -152,7 +156,6 @@ export const IntroController: React.FC<IntroControllerProps> = ({
 
   // Handle Skip button
   const handleSkip = useCallback(() => {
-    console.log(`[CyberIntro] User skipped intro sequence. Docking instantly.`);
     cyberAudio.stopAll();
     finishIntro();
   }, [finishIntro]);
@@ -170,16 +173,6 @@ export const IntroController: React.FC<IntroControllerProps> = ({
 
       // Step 1: Reveal portfolio underneath so dock element is laid out in DOM
       onRevealRef.current?.();
-
-      if (startTimeRef.current > 0) {
-        const elapsed = Math.round(performance.now() - startTimeRef.current);
-        console.log(
-          `%c[CyberIntro] Terminal transition started at %c${elapsed}ms%c (target: ${cfg.transitionStartMs}ms) | Mode: ${cfg.label}`,
-          "color: #00FF66;",
-          "color: #5BC0EB; font-weight: bold;",
-          "color: #B8C5CC;"
-        );
-      }
 
       // Step 2: In next animation frame, measure exact dock coordinates and apply continuous FLIP flight
       requestAnimationFrame(() => {
@@ -243,20 +236,12 @@ export const IntroController: React.FC<IntroControllerProps> = ({
         // Step 4: Network Awakening begins as terminal approaches destination (~55% of flight)
         const awakenDelay = Math.round(cfg.morphDurationMs * 0.55);
         const awakenTimer = setTimeout(() => {
-          console.log(
-            `%c[CyberIntro] Network Awakening triggered | Pulse VM Core & awaken topology`,
-            "color: #64C7D8; font-weight: bold;"
-          );
           onAwakenRef.current?.();
         }, awakenDelay);
         timeoutsRef.current.push(awakenTimer);
 
         // Step 5: Touchdown at destination! Play quiet docking confirmation click & hand off to docked mini-terminal
         const dockTimer = setTimeout(() => {
-          console.log(
-            `%c[CyberIntro] Terminal successfully docked into homepage System Map`,
-            "color: #00FF66; font-weight: bold;"
-          );
           cyberAudio.playDockingLatch();
           onDockCompleteRef.current?.();
           finishIntro(cfg);
@@ -279,22 +264,6 @@ export const IntroController: React.FC<IntroControllerProps> = ({
     // Lock body scrolling while intro is active
     document.body.style.overflow = "hidden";
 
-    // Expose dev reset helper on window
-    if (typeof window !== "undefined") {
-      (window as unknown as { __resetIntro: () => void }).__resetIntro = () => {
-        try {
-          sessionStorage.removeItem(SESSION_STORAGE_KEY);
-          console.log(
-            `%c[CyberIntro] Reset intro session: sessionStorage key "${SESSION_STORAGE_KEY}" removed.`,
-            "color: #00FF66;"
-          );
-        } catch {
-          // ignore
-        }
-        window.location.reload();
-      };
-    }
-
     // 1. Detect visit mode from sessionStorage
     let storedValue: string | null = null;
     let reloadMode = false;
@@ -310,26 +279,17 @@ export const IntroController: React.FC<IntroControllerProps> = ({
     hasFinishedRef.current = false;
     startTimeRef.current = performance.now();
 
-    // Development log showing detected visit mode and initial storage state
-    console.log(
-      `%c[CyberIntro] Detected visit mode: %c${activeCfg.label} (${(activeCfg.totalDurationMs / 1000).toFixed(1)}s)%c | sessionStorage[${SESSION_STORAGE_KEY}] = %c${storedValue ?? "null (new session)"}`,
-      "color: #00FF66; font-weight: bold;",
-      "color: #5BC0EB; font-weight: bold;",
-      "color: #B8C5CC;",
-      "color: #F59E0B; font-weight: bold;"
-    );
-
     // Schedule progressive reveal of lines with synchronized sound effects
     activeCfg.sequence.forEach((entry) => {
       const timer = setTimeout(() => {
         setVisibleLines((prev) => [...prev, entry]);
 
-        // 1. Terminal Typing: Soft, realistic mechanical keyboard clicks while commands are being typed
+        // 1. Terminal Typing: Realistic mechanical keyboard clicks while commands are being typed
         if (entry.type === "kali-prompt" || entry.commandText) {
           const burstLength = entry.commandText ? Math.min(5, Math.max(3, Math.floor(entry.commandText.length / 5))) : 4;
           cyberAudio.playTypingBurst(burstLength);
         } else if (entry.id === "recon-done" || entry.id === "rev-connected") {
-          // Subtle high-tech packet processing chirp
+          // High-tech packet processing chirp
           cyberAudio.playPacketChirp();
         }
 
@@ -377,6 +337,7 @@ export const IntroController: React.FC<IntroControllerProps> = ({
   return (
     <div
       className="terminal-overlay-root"
+      onPointerDown={() => cyberAudio.unlock()}
       style={{
         opacity: overlayOpacity,
         transition: "opacity 300ms ease",
@@ -394,12 +355,12 @@ export const IntroController: React.FC<IntroControllerProps> = ({
         </div>
 
         <div className="flex items-center gap-2.5">
-          {/* Minimal Cyber Audio Toggle (Mute / Enable) */}
+          {/* Cyber Audio Toggle (Mute / Active) */}
           <button
             onClick={handleToggleSound}
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded bg-[#0d1217] hover:bg-[#151d26] border text-xs font-mono uppercase tracking-wider transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00FF66] cursor-pointer shadow-lg ${
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#0d1217] hover:bg-[#151d26] border text-xs font-mono uppercase tracking-wider transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00FF66] cursor-pointer shadow-lg ${
               soundEnabled
-                ? "border-[#00FF66]/60 text-[#00FF66] shadow-[0_0_12px_rgba(0,255,102,0.15)]"
+                ? "border-[#00FF66] text-[#00FF66] shadow-[0_0_12px_rgba(0,255,102,0.25)] ring-1 ring-[#00FF66]/30"
                 : "border-[#1a232e] text-[#94A0AD] hover:text-[#E8EDF2]"
             }`}
             aria-label={soundEnabled ? "Mute Terminal Audio" : "Enable Terminal Audio"}
@@ -410,8 +371,8 @@ export const IntroController: React.FC<IntroControllerProps> = ({
             ) : (
               <VolumeX className="w-3.5 h-3.5 text-[#94A0AD]" />
             )}
-            <span className="hidden sm:inline">{soundEnabled ? "AUDIO ON" : "AUDIO OFF"}</span>
-            <span className="inline sm:hidden">{soundEnabled ? "ON" : "OFF"}</span>
+            <span className="hidden sm:inline">{soundEnabled ? "AUDIO ON" : "AUDIO MUTED"}</span>
+            <span className="inline sm:hidden">{soundEnabled ? "ON" : "MUTED"}</span>
           </button>
 
           {/* Skip Intro CTA */}
