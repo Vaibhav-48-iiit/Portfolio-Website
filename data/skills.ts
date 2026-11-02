@@ -17,7 +17,7 @@ export const technicalCapabilityIndex: CapabilityItem[] = [
     domain: "Security & Networking",
     focus: "Packet inspection, protocol mechanics, and vulnerability enumeration.",
     toolsUsed: ["Nmap", "Wireshark", "Burp Suite", "TCP/IP & OSI Model", "HTTP/S & DNS Analysis"],
-    learning: ["OWASP Top 10 Exploitation", "PortSwigger Web Security Labs"],
+    learning: ["OWASP Top 10 Fundamentals", "PortSwigger Web Security Labs"],
     practicalExperience:
       "Analyzed packet captures, TCP 3-way handshakes, and DNS requests in TryHackMe Pre Security; executed service enumeration and authorized web scanning in Mr. Robot CTF.",
     evidenceLabel: "TryHackMe Pre Security & Mr. Robot CTF",
@@ -28,10 +28,10 @@ export const technicalCapabilityIndex: CapabilityItem[] = [
     code: "02 // OPS-ENV",
     domain: "Operating Systems & Lab Environments",
     focus: "Linux systems administration, terminal workflow automation, and VM sandbox management.",
-    toolsUsed: ["Kali Linux", "Linux CLI", "Bash Scripting", "VirtualBox / VMware", "Windows Internals"],
+    toolsUsed: ["Kali Linux", "Linux CLI", "Bash Scripting", "VirtualBox / VMware", "Windows Security basics"],
     learning: ["Linux Privilege Escalation Vectors", "SUID / Capability Auditing"],
     practicalExperience:
-      "Daily offensive security workflows inside Kali Linux virtual machines; investigated Linux process hierarchies, directory permissions, and SUID binaries during CTF lab exercises.",
+      "Regular lab practice in Kali Linux virtual machines; investigated Linux process hierarchies, directory permissions, and SUID binaries during CTF lab exercises.",
     evidenceLabel: "Hands-on CTFs & Virtual Machines",
     evidenceTargetId: "projects",
   },

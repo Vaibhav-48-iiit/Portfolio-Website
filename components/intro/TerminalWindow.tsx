@@ -65,7 +65,7 @@ export const TerminalWindow: React.FC<TerminalWindowProps> = ({
         <div className="p-3 bg-[#000000] font-mono space-y-1 text-xs select-text animate-fadeIn">
           <div className="flex items-center justify-between">
             <span className="text-[#00FF66] font-bold tracking-wide">[+] VM_CORE: ONLINE</span>
-            <span className="text-[#64C7D8] text-[10px] font-semibold">[+] ACCESS GRANTED</span>
+            <span className="text-[#64C7D8] text-[10px] font-semibold">[+] WORKSPACE READY</span>
           </div>
           <div className="flex items-center gap-1 text-[#4ADE80] text-[11px]">
             <span className="text-[#5BC0EB]">└─$</span>

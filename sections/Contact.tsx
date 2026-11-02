@@ -37,7 +37,7 @@ export const ContactSection: React.FC = () => {
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center">
         <SectionHeading
-          number="04"
+          number="05"
           category="CONTACT"
           title="Direct Inquiries"
           subtitle="Interested in security discussions, CTFs, or collaborative software engineering? Reach out directly."

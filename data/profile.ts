@@ -46,15 +46,15 @@ export const profileData: ProfileData = {
     platform: "TryHackMe",
     title: "Pre Security Path Completed",
     status: "Verified",
-    description: "Foundational mastery in networking fundamentals, web protocols, and Linux CLI.",
+    description: "Foundational knowledge in networking fundamentals, web protocols, and Linux CLI.",
   },
   bioParagraphs: [
     "I am a Computer Science student at IIIT Surat who initially explored software engineering and full-stack development before shifting my focus toward cybersecurity and ethical hacking.",
     "My development background helps me understand how modern web applications are structured, how client-server communication flows, and where security weaknesses typically emerge.",
     "Today, I am actively building hands-on experience with Linux administration, networking protocols, web security vulnerabilities, CTF challenges, and industry-standard security tools.",
-    "I focus on practical, method-driven learning — analyzing packet captures, auditing application endpoints, and understanding how attackers think in order to build stronger defenses."
+    "I focus on practical, method-driven learning — analyzing packet captures, analyzing web requests and network protocols in practice labs, and understanding how attackers think in order to build stronger defenses."
   ],
   // Central contact configuration: replace with your actual email & resume
   email: "vaibhavashokm123@gmail.com",
-  resumeUrl: "/resume.pdf", // Place your resume PDF in the public folder as resume.pdf
+  resumeUrl: "/Vaibhav_Marathe_Resume.pdf",
 };

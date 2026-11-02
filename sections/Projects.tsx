@@ -289,12 +289,12 @@ export const ProjectsSection: React.FC = () => {
         {/* SECTION B: SECURITY RESEARCH LABS & CTF WRITEUPS ARCHIVE          */}
         {/* ================================================================== */}
         {showLabs && (
-          <div className="space-y-6">
+          <div id="labs" className="space-y-6 scroll-mt-24">
             {/* Header label for Security Labs */}
             <div className="flex items-center gap-3 pb-3 border-b border-[#29323D]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#64C7D8]" />
               <span className="font-mono text-xs text-[#E8EDF2] uppercase tracking-wider font-semibold">
-                SECURITY RESEARCH LABS & CTF METHODOLOGIES
+                04 // SECURITY RESEARCH LABS &amp; CTF METHODOLOGIES
               </span>
             </div>
 

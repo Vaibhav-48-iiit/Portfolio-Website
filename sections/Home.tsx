@@ -53,7 +53,7 @@ const NODES: SecondaryNode[] = [
     label: "LABS & CTFS",
     title: "Security Methodology",
     summary: "TryHackMe Pre-Sec • Mr. Robot CTF",
-    targetId: "projects",
+    targetId: "labs",
     icon: ShieldAlert,
     position: "bottom-left",
   },
@@ -124,7 +124,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
 
         <div className="hidden sm:flex items-center gap-2 text-[#94A0AD] text-[10px]">
           <Network className="w-3.5 h-3.5 text-[#64C7D8]" />
-          <span>ORIGIN: VM_CORE</span>
+          <span>TOPOLOGY: 5 NODES</span>
           <span className="text-[#29323D]">•</span>
           <span>5 ACTIVE SECTIONS</span>
         </div>
@@ -136,8 +136,8 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
               : isDormant
               ? "STATUS: INITIALIZING..."
               : isAwakening
-              ? "STATUS: SYNCHRONIZING..."
-              : "STATUS: SYNCHRONIZED"}
+              ? "STATUS: CONNECTING..."
+              : "STATUS: ACTIVE // OPEN TO INTERNSHIPS"}
           </span>
         </div>
       </div>
@@ -495,7 +495,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
             <div className="flex items-center justify-between mb-4">
               <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#11161D] border border-[#29323D] text-[10px] font-mono tracking-widest uppercase text-[#64C7D8]">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#64C7D8] animate-pulse" />
-                <span>PORTFOLIO // ORIGIN</span>
+                <span>OVERVIEW // PROFILE</span>
               </div>
               <span className="font-mono text-[10px] text-[#94A0AD] tracking-wider">
                 IIIT SURAT • CSE
@@ -575,7 +575,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
             <div className="px-3.5 py-2.5 bg-[#000000] space-y-1 text-[11px] leading-relaxed select-text">
               <div className="flex items-center justify-between">
                 <span className="text-[#00FF66] font-bold tracking-wide">[+] VM_CORE: ONLINE</span>
-                <span className="text-[#64C7D8] text-[10px] font-semibold">[+] ACCESS GRANTED</span>
+                <span className="text-[#64C7D8] text-[10px] font-semibold">[+] WORKSPACE READY</span>
               </div>
               <div className="flex items-center gap-1 text-[#4ADE80]">
                 <span className="text-[#5BC0EB]">└─$</span>
@@ -608,16 +608,16 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
           <div className="flex items-center justify-between mb-4">
             <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#11161D] border border-[#29323D] text-[10px] font-mono tracking-widest uppercase text-[#64C7D8]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#64C7D8] animate-pulse" />
-              <span>ORIGIN // VM_CORE</span>
+              <span>PROFILE // OVERVIEW</span>
             </div>
             <span className="font-mono text-[10px] text-[#94A0AD]">
               IIIT SURAT • CSE
             </span>
           </div>
 
-          <h1 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-[#E8EDF2] mb-1">
+          <p className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-[#E8EDF2] mb-1">
             VAIBHAV <span className="text-[#64C7D8]">MARATHE</span>
-          </h1>
+          </p>
 
           <div className="font-mono text-xs uppercase tracking-wider text-[#E8EDF2] mb-3 font-semibold">
             {profileData.role}
@@ -682,7 +682,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
           <div className="px-3 py-2 bg-[#000000] space-y-0.5 text-[10px]">
             <div className="flex items-center justify-between">
               <span className="text-[#00FF66] font-bold">[+] VM_CORE: ONLINE</span>
-              <span className="text-[#64C7D8]">[+] ACCESS GRANTED</span>
+              <span className="text-[#64C7D8]">[+] WORKSPACE READY</span>
             </div>
             <div className="flex items-center gap-1 text-[#4ADE80]">
               <span className="text-[#5BC0EB]">└─$</span>
