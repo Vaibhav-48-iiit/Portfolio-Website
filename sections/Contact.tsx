@@ -5,7 +5,6 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { TunnelBackground } from "@/components/TunnelBackground";
 import { profileData } from "@/data/profile";
 import { socialsData } from "@/data/socials";
-import { triggerResumeNotice } from "@/components/ResumeNoticeModal";
 import { GithubIcon, LinkedinIcon, TwitterIcon, MailIcon, TryHackMeIcon } from "@/components/SocialIcons";
 import { ArrowRight, Copy, Check, FileText } from "lucide-react";
 
@@ -20,10 +19,26 @@ const socialIcons = {
 export const ContactSection: React.FC = () => {
   const [copied, setCopied] = useState(false);
 
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(profileData.email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
+  const handleCopyEmail = async () => {
+    try {
+      if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(profileData.email);
+      } else {
+        const textArea = document.createElement("textarea");
+        textArea.value = profileData.email;
+        textArea.style.position = "fixed";
+        textArea.style.opacity = "0";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+      }
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      window.location.href = `mailto:${profileData.email}`;
+    }
   };
 
   return (
@@ -81,18 +96,27 @@ export const ContactSection: React.FC = () => {
               )}
             </button>
 
-            <button
-              onClick={triggerResumeNotice}
+            <a
+              href="/Vaibhav_Marathe_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#11161D] text-[#E8EDF2] border border-[#29323D] hover:border-[#64C7D8]/60 hover:bg-[#171D25] font-mono text-xs uppercase tracking-wider transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#64C7D8] cursor-pointer"
-              title="Resume status"
+              title="View Resume"
             >
               <FileText className="w-3.5 h-3.5 text-[#64C7D8]" />
-              <span>Resume Notice</span>
-            </button>
+              <span>View Resume</span>
+            </a>
           </div>
 
-          {/* Email Address Plain Display */}
-          <div className="font-mono text-xs text-[#94A0AD] mb-8 pb-6 border-b border-[#29323D]/70">
+          {/* Email Address Display */}
+          <div className="font-mono text-xs text-[#94A0AD] mb-8 pb-6 border-b border-[#29323D]/70 flex items-center justify-center gap-2">
+            <span>Direct Inquiries:</span>
+            <span className="text-[#E8EDF2] font-semibold select-all">
+              {profileData.email.split("@")[0]}
+              <span className="text-[#64C7D8]">@</span>
+              {profileData.email.split("@")[1]}
+            </span>
+          </div>
             <span>Direct Email: </span>
             <a
               href={`mailto:${profileData.email}`}

@@ -134,28 +134,32 @@ export const Navbar: React.FC = () => {
             })}
           </nav>
 
-          {/* Right Action: Resume Button */}
+          {/* Right Action: Resume Link */}
           <div className="hidden sm:flex items-center gap-3">
-            <button
-              onClick={triggerResumeNotice}
+            <a
+              href="/Vaibhav_Marathe_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2 text-xs font-mono uppercase tracking-wider text-[#E8EDF2] bg-[#171D25] hover:bg-[#11161D] border border-[#29323D] hover:border-[#64C7D8]/50 rounded-md transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#64C7D8] group cursor-pointer"
-              title="Resume status"
+              title="View Resume"
             >
               <Download className="w-3.5 h-3.5 text-[#64C7D8] group-hover:-translate-y-0.5 transition-transform duration-200" />
               <span>Resume</span>
-            </button>
+            </a>
           </div>
 
           {/* Mobile Hamburger Toggle */}
           <div className="flex md:hidden items-center gap-2">
-            <button
-              onClick={triggerResumeNotice}
+            <a
+              href="/Vaibhav_Marathe_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="p-2 text-[#64C7D8] bg-[#171D25] border border-[#29323D] rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#64C7D8] cursor-pointer"
-              aria-label="Resume status"
-              title="Resume status"
+              aria-label="View Resume"
+              title="View Resume"
             >
               <Download className="w-4 h-4" />
-            </button>
+            </a>
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -195,16 +199,16 @@ export const Navbar: React.FC = () => {
                 );
               })}
               <div className="pt-2 px-2">
-                <button
-                  onClick={(e) => {
-                    setMobileMenuOpen(false);
-                    triggerResumeNotice(e);
-                  }}
+                <a
+                  href="/Vaibhav_Marathe_Resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
                   className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-mono uppercase tracking-wider text-black bg-[#64C7D8] hover:bg-[#82d6e4] font-medium rounded-lg transition-colors cursor-pointer"
                 >
                   <Download className="w-4 h-4" />
                   <span>Resume</span>
-                </button>
+                </a>
               </div>
             </nav>
           </div>

@@ -3,7 +3,6 @@ import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { ResumeNoticeModal } from "@/components/ResumeNoticeModal";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,7 +29,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Vaibhav Marathe | Cybersecurity & Ethical Hacking",
+  title: "Vaibhav Marathe",
   description:
     "Personal portfolio of Vaibhav Marathe, a Computer Science student at IIIT Surat exploring cybersecurity, penetration testing, web security, and software development.",
   keywords: [
@@ -51,20 +50,27 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://vaibhavmarathe.dev",
-    title: "Vaibhav Marathe | Cybersecurity & Ethical Hacking",
+    title: "Vaibhav Marathe",
     description:
       "Personal portfolio of Vaibhav Marathe, a Computer Science student at IIIT Surat exploring cybersecurity, penetration testing, web security, and software development.",
     siteName: "Vaibhav Marathe Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vaibhav Marathe | Cybersecurity & Ethical Hacking",
+    title: "Vaibhav Marathe",
     description:
       "Personal portfolio of Vaibhav Marathe, a Computer Science student at IIIT Surat exploring cybersecurity, penetration testing, web security, and software development.",
     creator: "@vaibhavmarathe",
   },
   icons: {
-    icon: "/icon.svg",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+      { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
 };
 
@@ -81,7 +87,6 @@ export default function RootLayout({
         <Navbar />
         <main className="grow">{children}</main>
         <Footer />
-        <ResumeNoticeModal />
       </body>
     </html>
   );

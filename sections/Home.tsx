@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { TunnelBackground } from "@/components/TunnelBackground";
 import { profileData } from "@/data/profile";
-import { triggerResumeNotice } from "@/components/ResumeNoticeModal";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -531,12 +530,12 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
               </button>
 
               <button
-                onClick={triggerResumeNotice}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#171D25] text-[#E8EDF2] border border-[#29323D] hover:border-[#64C7D8]/60 hover:bg-[#11161D] font-mono text-xs uppercase tracking-wider transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#64C7D8] group/resume cursor-pointer"
-                title="Resume status"
+                onClick={() => handleScrollTo("contact")}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#171D25] text-[#E8EDF2] border border-[#29323D] hover:border-[#64C7D8]/60 hover:bg-[#11161D] font-mono text-xs uppercase tracking-wider transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#64C7D8] group/contact cursor-pointer"
+                title="Get in touch"
               >
-                <span>Download Resume</span>
-                <ArrowUpRight className="w-3.5 h-3.5 text-[#64C7D8] group-hover/resume:translate-x-0.5 group-hover/resume:-translate-y-0.5 transition-transform" />
+                <span>Get In Touch</span>
+                <ArrowRight className="w-3.5 h-3.5 text-[#64C7D8] group-hover/contact:translate-x-0.5 transition-transform" />
               </button>
             </div>
           </div>
@@ -638,12 +637,12 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
             </button>
 
             <button
-              onClick={triggerResumeNotice}
+              onClick={() => handleScrollTo("contact")}
               className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#171D25] text-[#E8EDF2] border border-[#29323D] font-mono text-xs uppercase tracking-wider cursor-pointer"
-              title="Resume status"
+              title="Get in touch"
             >
-              <span>Download Resume</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-[#64C7D8]" />
+              <span>Get In Touch</span>
+              <ArrowRight className="w-3.5 h-3.5 text-[#64C7D8]" />
             </button>
           </div>
         </div>
