@@ -14,7 +14,7 @@
   --alert-red: #e25459;
 }
 
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-heading: var(--font-space-grotesk), sans-serif;
