@@ -32,7 +32,7 @@
 | Dependency Check (`npm install`) | PASS | **PASS** | - | Clean lockfile, packages present | Verified clean |
 | TypeScript Check (`npx tsc --noEmit`) | PASS | **PASS** | - | `npx tsc --noEmit` exited with 0 diagnostics | Clean TypeScript tree |
 | ESLint Check (`npm run lint`) | FAIL | **PASS** | **BLOCKER** | 4 errors, 7 warnings | Resolved cascading `setState` in `IntroController` and `Footer`, wrapped JSX text comments, removed all unused imports |
-| Production Build (`npm run build`) | FAIL | **PASS** | **BLOCKER** | Turbopack panic on `intro.css.css` via custom loader rule | Removed broken loader in `next.config.ts`; native Tailwind v4 build now compiles and prerenders in ~1.8s |
+| Production Build & Styles (`npm run build`) | FAIL | **PASS** | **BLOCKER** | Turbopack panic on `intro.css.css` caused style compilation drop when rule removed | Centralized CSS imports in `app/globals.css`, resolved client-component CSS conflict, restored `@tailwindcss/turbopack` & `@theme inline`, upgraded Next.js to 16.4.4. Emits 66.5 KB full Tailwind CSS stylesheet with zero warnings |
 | Console Logs & Debuggers | FAIL | **PASS** | **SHOULD-FIX** | 7 `console.log` statements in `IntroController.tsx` | Removed all console statements from client production bundle |
 | Hydration & SSR Safety | FAIL | **PASS** | **SHOULD-FIX** | `soundEnabled` mismatch on client/server mount | Integrated `useSyncExternalStore` subscription with `cyberAudio` |
 | Asset Availability | FAIL | **PASS** | **SHOULD-FIX** | Unused/missing icons | Standardized icon manifest and layout metadata icons |

@@ -11,7 +11,7 @@ import { TerminalWindow } from "./TerminalWindow";
 import { cyberAudio } from "./cyberAudio";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { Volume2, VolumeX } from "lucide-react";
-import "./intro.css";
+// intro.css imported centrally in app/globals.css
 
 const SESSION_STORAGE_KEY = "vm_cyber_intro_played";
 
