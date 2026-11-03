@@ -42,7 +42,7 @@ export const ProjectsSection: React.FC = () => {
   return (
     <section
       id="projects"
-      className="relative py-24 sm:py-32 bg-[#080A0D] border-t border-[#29323D]/50"
+      className="relative py-24 sm:py-32 bg-[#080A0D] border-t border-[#29323D]/50 scroll-mt-20"
       aria-label="Technical Research Archive"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -332,7 +332,7 @@ export const ProjectsSection: React.FC = () => {
                     {/* Methodological Details Summary */}
                     <div className="pt-3 border-t border-[#29323D]/60 space-y-2 mb-5 text-xs font-mono">
                       <div>
-                        <span className="text-[#94A0AD] text-[10px] uppercase block mb-1">
+                        <span className="text-[#CBD5E1] text-xs font-mono uppercase block mb-1 font-medium">
                           Audited Vectors & Protocols:
                         </span>
                         <div className="flex flex-wrap gap-1.5">

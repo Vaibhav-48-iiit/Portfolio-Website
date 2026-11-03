@@ -5,7 +5,6 @@ import { TunnelBackground } from "@/components/TunnelBackground";
 import { profileData } from "@/data/profile";
 import {
   ArrowRight,
-  ArrowUpRight,
   ShieldAlert,
   Terminal,
   GraduationCap,
@@ -103,7 +102,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
   return (
     <section
       id="home"
-      className="relative min-h-[96vh] sm:min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#080A0D] pt-24 pb-16 px-4 sm:px-6 lg:px-8"
+      className="relative min-h-[96vh] sm:min-h-screen flex flex-col items-center justify-center bg-[#080A0D] pt-20 pb-12 xl:pt-24 xl:pb-16 px-4 sm:px-6 lg:px-8 scroll-mt-20"
       aria-label="System Map Hero - Vaibhav Marathe"
     >
       {/* Background: Subtle Deep Network Perspective Tunnel */}
@@ -144,7 +143,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
       {/* ==================================================================== */}
       {/* DESKTOP / TABLET SYSTEM MAP VIEW (Visible on >= 1024px)              */}
       {/* ==================================================================== */}
-      <div className="relative z-10 w-full max-w-6xl mx-auto hidden lg:block min-h-175">
+      <div className="relative z-10 w-full max-w-6xl mx-auto hidden lg:block min-h-[580px] xl:min-h-170">
         {/* SVG Interconnection Circuit Lines */}
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none select-none z-0"
@@ -245,6 +244,14 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
         {/* ------------------------------------------------------------------ */}
         <div
           onClick={() => handleScrollTo("about")}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              handleScrollTo("about");
+            }
+          }}
+          onFocus={() => setHoveredNode("about")}
+          onBlur={() => setHoveredNode(null)}
           onMouseEnter={() => setHoveredNode("about")}
           onMouseLeave={() => setHoveredNode(null)}
           style={{
@@ -288,6 +295,14 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
         {/* ------------------------------------------------------------------ */}
         <div
           onClick={() => handleScrollTo("skills")}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              handleScrollTo("skills");
+            }
+          }}
+          onFocus={() => setHoveredNode("skills")}
+          onBlur={() => setHoveredNode(null)}
           onMouseEnter={() => setHoveredNode("skills")}
           onMouseLeave={() => setHoveredNode(null)}
           style={{
@@ -330,7 +345,15 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
         {/* NODE 04: LABS (Bottom-Left)                                        */}
         {/* ------------------------------------------------------------------ */}
         <div
-          onClick={() => handleScrollTo("projects")}
+          onClick={() => handleScrollTo("labs")}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              handleScrollTo("labs");
+            }
+          }}
+          onFocus={() => setHoveredNode("labs")}
+          onBlur={() => setHoveredNode(null)}
           onMouseEnter={() => setHoveredNode("labs")}
           onMouseLeave={() => setHoveredNode(null)}
           style={{
@@ -339,7 +362,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
             transition: "opacity 600ms cubic-bezier(0.16, 1, 0.3, 1) 360ms, transform 600ms cubic-bezier(0.16, 1, 0.3, 1) 360ms, border-color 200ms ease, background-color 200ms ease",
             pointerEvents: isDormant ? "none" : "auto",
           }}
-          className={`absolute bottom-6 left-0 w-64 p-4 rounded-xl bg-[#0d1218]/90 border cursor-pointer backdrop-blur-md z-10 group ${
+          className={`absolute bottom-2 lg:bottom-4 left-0 w-64 p-4 rounded-xl bg-[#0d1218]/90 border cursor-pointer backdrop-blur-md z-10 group ${
             hoveredNode === "labs"
               ? "border-[#64C7D8] -translate-y-1.5 shadow-[0_8px_25px_rgba(100,199,216,0.15)] bg-[#171D25]"
               : isAwakening
@@ -374,6 +397,14 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
         {/* ------------------------------------------------------------------ */}
         <div
           onClick={() => handleScrollTo("projects")}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              handleScrollTo("projects");
+            }
+          }}
+          onFocus={() => setHoveredNode("projects")}
+          onBlur={() => setHoveredNode(null)}
           onMouseEnter={() => setHoveredNode("projects")}
           onMouseLeave={() => setHoveredNode(null)}
           style={{
@@ -382,7 +413,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
             transition: "opacity 600ms cubic-bezier(0.16, 1, 0.3, 1) 480ms, transform 600ms cubic-bezier(0.16, 1, 0.3, 1) 480ms, border-color 200ms ease, background-color 200ms ease",
             pointerEvents: isDormant ? "none" : "auto",
           }}
-          className={`absolute bottom-6 right-0 w-64 p-4 rounded-xl bg-[#0d1218]/90 border cursor-pointer backdrop-blur-md z-10 group ${
+          className={`absolute bottom-2 lg:bottom-4 right-0 w-64 p-4 rounded-xl bg-[#0d1218]/90 border cursor-pointer backdrop-blur-md z-10 group ${
             hoveredNode === "projects"
               ? "border-[#64C7D8] -translate-y-1.5 shadow-[0_8px_25px_rgba(100,199,216,0.15)] bg-[#171D25]"
               : isAwakening
@@ -417,6 +448,14 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
         {/* ------------------------------------------------------------------ */}
         <div
           onClick={() => handleScrollTo("contact")}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              handleScrollTo("contact");
+            }
+          }}
+          onFocus={() => setHoveredNode("contact")}
+          onBlur={() => setHoveredNode(null)}
           onMouseEnter={() => setHoveredNode("contact")}
           onMouseLeave={() => setHoveredNode(null)}
           style={{
@@ -425,7 +464,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
             transition: "opacity 600ms cubic-bezier(0.16, 1, 0.3, 1) 600ms, transform 600ms cubic-bezier(0.16, 1, 0.3, 1) 600ms, border-color 200ms ease, background-color 200ms ease",
             pointerEvents: isDormant ? "none" : "auto",
           }}
-          className={`absolute -bottom-8 left-1/2 w-72 p-3.5 rounded-xl bg-[#0d1218]/90 border cursor-pointer backdrop-blur-md z-10 group flex items-center justify-between ${
+          className={`absolute bottom-0 lg:bottom-1 left-1/2 w-72 p-3.5 rounded-xl bg-[#0d1218]/90 border cursor-pointer backdrop-blur-md z-10 group flex items-center justify-between ${
             hoveredNode === "contact"
               ? "border-[#64C7D8] shadow-[0_8px_25px_rgba(100,199,216,0.15)] bg-[#171D25]"
               : isAwakening

@@ -7,7 +7,7 @@ export const AboutSection: React.FC = () => {
   return (
     <section
       id="about"
-      className="relative py-24 sm:py-32 bg-[#080A0D] border-t border-[#29323D]/50 overflow-hidden"
+      className="relative py-24 sm:py-32 bg-[#080A0D] border-t border-[#29323D]/50 overflow-hidden scroll-mt-20"
       aria-label="About Vaibhav Marathe"
     >
       {/* Faint continuation of tunnel grid along edges */}

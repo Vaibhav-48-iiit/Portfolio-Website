@@ -17,7 +17,7 @@ export const SkillsSection: React.FC = () => {
   return (
     <section
       id="skills"
-      className="relative py-24 sm:py-32 bg-[#080A0D] border-t border-[#29323D]/50"
+      className="relative py-24 sm:py-32 bg-[#080A0D] border-t border-[#29323D]/50 scroll-mt-20"
       aria-label="Technical Capability Index"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -101,15 +101,15 @@ export const SkillsSection: React.FC = () => {
 
                   {item.learning.length > 0 && (
                     <div className="pt-2 border-t border-[#29323D]/60">
-                      <span className="block font-mono text-[10px] text-[#94A0AD]/70 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                        <BookOpen className="w-3 h-3 text-[#64C7D8]" />
+                      <span className="block font-mono text-xs text-[#CBD5E1] uppercase tracking-wider mb-1.5 flex items-center gap-1.5 font-medium">
+                        <BookOpen className="w-3.5 h-3.5 text-[#64C7D8]" />
                         <span>Actively Studying:</span>
                       </span>
                       <div className="flex flex-wrap gap-1.5">
                         {item.learning.map((study, idx) => (
                           <span
                             key={idx}
-                            className="px-2 py-0.5 rounded bg-[#080A0D] border border-[#29323D]/70 text-[11px] font-mono text-[#94A0AD] italic"
+                            className="px-2 py-0.5 rounded bg-[#080A0D] border border-[#29323D] text-xs font-mono text-[#CBD5E1] italic"
                           >
                             {study}
                           </span>
@@ -122,7 +122,7 @@ export const SkillsSection: React.FC = () => {
                 {/* Column 3: Applied Context & Direct Link to Project/Lab Evidence */}
                 <div className="lg:col-span-5 flex flex-col justify-between h-full space-y-3 lg:pl-4 lg:border-l lg:border-[#29323D]/60">
                   <div>
-                    <span className="block font-mono text-[10px] text-[#94A0AD] uppercase tracking-wider mb-1.5">
+                    <span className="block font-mono text-xs text-[#CBD5E1] uppercase tracking-wider mb-1.5 font-medium">
                       Practical Implementation:
                     </span>
                     <p className="text-xs sm:text-sm text-[#CBD5E1] leading-relaxed font-normal">

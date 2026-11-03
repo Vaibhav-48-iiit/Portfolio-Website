@@ -395,7 +395,9 @@ export const IntroController: React.FC<IntroControllerProps> = ({
           isComplete={isTransitioning}
           isDocking={isTransitioning}
         />
+      
       </div>
     </div>
+
   );
 };

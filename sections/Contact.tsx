@@ -44,7 +44,7 @@ export const ContactSection: React.FC = () => {
   return (
     <section
       id="contact"
-      className="relative min-h-[75vh] flex items-center justify-center py-24 sm:py-32 bg-[#080A0D] border-t border-[#29323D]/60 overflow-hidden"
+      className="relative min-h-[75vh] flex items-center justify-center py-24 sm:py-32 bg-[#080A0D] border-t border-[#29323D]/60 overflow-hidden scroll-mt-20"
       aria-label="Contact Vaibhav Marathe"
     >
       {/* Distant Network Tunnel Motif fading into darkness */}
@@ -116,14 +116,6 @@ export const ContactSection: React.FC = () => {
               <span className="text-[#64C7D8]">@</span>
               {profileData.email.split("@")[1]}
             </span>
-          </div>
-            <span>Direct Email: </span>
-            <a
-              href={`mailto:${profileData.email}`}
-              className="text-[#64C7D8] hover:underline"
-            >
-              {profileData.email}
-            </a>
           </div>
 
           {/* Direct Channels Grid */}
